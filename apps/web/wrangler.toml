@@ -1,0 +1,17 @@
+name = "mrpanda-run"
+main = "./dist/_worker.js/index.js"
+compatibility_date = "2026-02-11"
+compatibility_flags = ["nodejs_compat"]
+routes = [
+  { pattern = "www.mrpanda.run", custom_domain = true },
+  { pattern = "mrpanda.run", custom_domain = true }
+]
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+[[kv_namespaces]]
+binding = "SESSION"
+id = "32b54855879a4577bcb64b029e463334"
+preview_id = "808ff2d77ef647d69dbfd1a73ef3c0ef"

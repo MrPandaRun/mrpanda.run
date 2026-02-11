@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const email = Astro.url.searchParams.get("email")?.trim() ?? "";
+const role = Astro.url.searchParams.get("role")?.trim() ?? "developer";
+
+const roleText = role === "product"
+  ? "Product / Operations"
+  : role === "creator"
+    ? "Creator"
+    : "Developer / Technical";
+---
+
+<BaseLayout title="Subscribed" description="Post-subscription next-step guidance." noIndex={true}>
+  <section class="page-shell py-14">
+    <div class="mx-auto max-w-3xl rounded-3xl border border-line/80 bg-paper/95 p-8 shadow-card">
+      <p class="section-kicker">Success</p>
+      <h1 class="page-title mt-4">Subscription Confirmed</h1>
+      <p class="mt-4 text-sm leading-7 text-ink/72">
+        {email ? `${email} has been added to the weekly list.` : "You have been added to the weekly list."}
+        {" "}
+        Role: {roleText}. Pick one small action now to enter execution mode.
+      </p>
+
+      <div class="mt-8 grid gap-3 md:grid-cols-3">
+        <a
+          href="/blog"
+          class="rounded-xl border border-line bg-canvas/20 px-4 py-4 text-sm text-ink/75 transition hover:-translate-y-0.5"
+        >
+          1. Read one blog post
+        </a>
+        <a
+          href="/projects"
+          class="rounded-xl border border-line bg-canvas/20 px-4 py-4 text-sm text-ink/75 transition hover:-translate-y-0.5"
+        >
+          2. Review one project log
+        </a>
+        <a
+          href="/resources"
+          class="rounded-xl border border-line bg-canvas/20 px-4 py-4 text-sm text-ink/75 transition hover:-translate-y-0.5"
+        >
+          3. Copy one resource template
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

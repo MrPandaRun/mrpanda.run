@@ -1,0 +1,31 @@
+---
+title: CodeWindow
+slug: codewindow
+status: in-progress
+stack:
+  - Astro
+  - TypeScript
+  - SQLite
+  - Cloudflare Workers
+repoUrl: https://github.com/mrpandarun/codewindow
+demoUrl: https://codewindow.mrpanda.run
+updatedAt: 2026-02-10
+problem: Managing Codex and Claude Code threads across multiple tasks is fragmented and hard to search.
+hypothesis: A unified thread timeline with workspace context and quick filters will reduce context-switch cost and speed up follow-up actions.
+buildProcess:
+  - Implemented thread ingestion adapters for Codex and Claude Code session metadata.
+  - Designed a single activity timeline grouped by project, task status, and last updated time.
+  - Added quick filters for unresolved threads, stale threads, and high-priority conversations.
+resultsMetrics:
+  - Reduced thread lookup time from 4-6 minutes to under 45 seconds in internal tests.
+  - 78% of follow-up actions can now be resumed from a single workspace view.
+  - Daily thread triage volume improved by 2.3x with filter shortcuts.
+retrospective:
+  - Thread status tags must be opinionated; optional tagging led to inconsistent indexing.
+  - Showing too much metadata hurts scan speed, so default cards now display only critical fields.
+relatedPosts:
+  - agent-demo-build-in-public
+  - think-in-public-calibration
+---
+
+CodeWindow is a focused control panel for managing AI coding assistant threads. It is built to reduce thread chaos and make daily execution easier.

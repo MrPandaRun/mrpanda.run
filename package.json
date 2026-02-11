@@ -1,0 +1,14 @@
+{
+  "name": "mrpanda-run",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "preview": "pnpm --filter web preview",
+    "check": "pnpm --filter web check",
+    "typecheck": "pnpm --filter web typecheck"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp"]
+  }
+}

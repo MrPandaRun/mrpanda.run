@@ -1,0 +1,101 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BlogCard from "@/components/BlogCard.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { getSortedBlogPosts, getSortedProjects } from "@/lib/content";
+
+const latestPosts = (await getSortedBlogPosts()).slice(0, 3);
+const latestProjects = (await getSortedProjects()).slice(0, 2);
+---
+
+<BaseLayout
+  title="Home"
+  description="Mr Panda's public learning homepage: weekly executable AI actions, project retrospectives, and reusable resources."
+>
+  <div class="page-shell space-y-14 py-10 md:space-y-16 md:py-14">
+    <section class="grid items-end gap-6 md:gap-8 lg:grid-cols-[1.3fr_1fr]">
+      <div class="fade-rise">
+        <p class="section-kicker">Learn in Public</p>
+        <h1 class="page-title mt-4">Mr Panda | Learn AI in Public</h1>
+        <p class="mt-5 max-w-xl text-base leading-8 text-ink/75 md:text-lg">
+          I am an AI learning creator and execution-first builder. Here you get real project
+          retrospectives, reusable tools, and practical write-ups you can apply this week.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a
+            href="/blog"
+            class="inline-flex items-center rounded-full border border-accent/60 bg-accent px-5 py-2.5 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-coral"
+          >
+            Read Latest Posts
+          </a>
+          <a
+            href="/projects"
+            class="inline-flex items-center rounded-full border border-line bg-paper px-5 py-2.5 text-sm text-ink/75 transition hover:-translate-y-0.5"
+          >
+            Explore Projects
+          </a>
+        </div>
+      </div>
+
+      <aside class="panel fade-rise delay-1 rounded-xl border p-6 shadow-card">
+        <p class="text-xs uppercase tracking-[0.14em] text-ink/50">10-second brief</p>
+        <ul class="mt-4 space-y-3 text-sm leading-6 text-ink/75">
+          <li>Weekly practical experiments with clear outputs.</li>
+          <li>Every project includes process and metrics.</li>
+          <li>Clear conclusions with explicit uncertainty.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="panel fade-rise delay-1 rounded-xl border p-6 shadow-card">
+      <p class="section-kicker">Value Strip</p>
+      <div class="mt-4 grid gap-4 md:grid-cols-3">
+        <article class="panel rounded-xl border p-4">
+          <h2 class="font-display text-2xl">Weekly Experiments</h2>
+          <p class="mt-2 text-sm leading-6 text-ink/70">
+            Small, testable tasks that turn knowledge into output.
+          </p>
+        </article>
+        <article class="panel rounded-xl border p-4">
+          <h2 class="font-display text-2xl">Project Retrospectives</h2>
+          <p class="mt-2 text-sm leading-6 text-ink/70">
+            Problem, hypothesis, metrics, failures, and corrections.
+          </p>
+        </article>
+        <article class="panel rounded-xl border p-4">
+          <h2 class="font-display text-2xl">Resource Library</h2>
+          <p class="mt-2 text-sm leading-6 text-ink/70">
+            Prompts, checklists, and references ready to copy.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="space-y-5 fade-rise delay-2">
+      <div class="flex flex-col items-start gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="section-kicker">Latest Blog</p>
+          <h2 class="mt-3 font-display text-3xl text-ink">Latest Posts</h2>
+        </div>
+        <a href="/blog" class="text-sm text-ink/65 underline underline-offset-4">View all</a>
+      </div>
+      <div class="grid gap-4 md:grid-cols-3">
+        {latestPosts.map((post) => <BlogCard post={post} />)}
+      </div>
+    </section>
+
+    <section class="space-y-5 fade-rise delay-3">
+      <div class="flex flex-col items-start gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="section-kicker">Latest Projects</p>
+          <h2 class="mt-3 font-display text-3xl text-ink">Latest Projects</h2>
+        </div>
+        <a href="/projects" class="text-sm text-ink/65 underline underline-offset-4">View all</a>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        {latestProjects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

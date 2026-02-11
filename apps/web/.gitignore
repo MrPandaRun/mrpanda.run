@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# build artifacts
+dist/
+.astro/
+
+# logs
+*.log
+
+# local env
+.env
+.env.*
+
+# misc
+.DS_Store
+.wrangler/

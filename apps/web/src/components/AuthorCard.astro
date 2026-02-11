@@ -1,0 +1,30 @@
+---
+import BrandAvatar from "@/components/BrandAvatar.astro";
+
+interface Props {
+  description: string;
+  className?: string;
+}
+
+const { description, className = "" } = Astro.props;
+---
+
+<section class={`flex flex-col gap-4 rounded-2xl border border-line/80 bg-paper/95 p-4 shadow-card sm:flex-row sm:items-center ${className}`}>
+  <BrandAvatar
+    size="md"
+    shape="round"
+    alt="Mr Panda profile avatar"
+    className="ring-1 ring-accent/35"
+  />
+  <div class="min-w-0 flex-1">
+    <p class="text-[11px] uppercase tracking-[0.16em] text-ink/50">Author</p>
+    <p class="mt-1 font-display text-xl text-ink">Mr Panda</p>
+    <p class="mt-1 text-sm leading-6 text-ink/68">{description}</p>
+  </div>
+  <a
+    href="/about"
+    class="w-full rounded-full border border-line bg-canvas/20 px-4 py-2 text-center text-xs uppercase tracking-[0.14em] text-ink/70 transition hover:border-accent/50 hover:text-ink sm:w-auto"
+  >
+    About the creator
+  </a>
+</section>

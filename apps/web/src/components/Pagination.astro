@@ -1,0 +1,43 @@
+---
+interface Props {
+  page: number;
+  totalPages: number;
+  previousHref: string;
+  nextHref: string;
+}
+
+const { page, totalPages, previousHref, nextHref } = Astro.props;
+const shouldRender = totalPages > 1;
+---
+
+{
+  shouldRender ? (
+    <nav aria-label="Pagination" class="mt-8 flex flex-wrap items-center justify-center gap-3 sm:justify-between">
+      <a
+        href={previousHref}
+        aria-disabled={page === 1}
+        class={`rounded-full border px-4 py-2 text-sm ${
+          page === 1
+            ? "pointer-events-none border-line/50 text-ink/35"
+            : "border-line bg-paper text-ink/75 transition hover:-translate-y-0.5"
+        }`}
+      >
+        Previous
+      </a>
+
+      <p class="w-full text-center text-sm text-ink/60 sm:w-auto">Page {page} / {totalPages}</p>
+
+      <a
+        href={nextHref}
+        aria-disabled={page === totalPages}
+        class={`rounded-full border px-4 py-2 text-sm ${
+          page === totalPages
+            ? "pointer-events-none border-line/50 text-ink/35"
+            : "border-line bg-paper text-ink/75 transition hover:-translate-y-0.5"
+        }`}
+      >
+        Next
+      </a>
+    </nav>
+  ) : null
+}

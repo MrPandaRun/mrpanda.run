@@ -1,0 +1,27 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="404" description="Page not found." noIndex={true}>
+  <section class="page-shell py-20">
+    <p class="section-kicker">404</p>
+    <h1 class="page-title mt-4">Page Not Found</h1>
+    <p class="mt-4 max-w-xl text-ink/70">
+      This link may have moved. You can go back home or continue reading the blog.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a
+        href="/"
+        class="rounded-full border border-line bg-paper px-4 py-2 text-sm text-ink/75 transition hover:-translate-y-0.5"
+      >
+        Back Home
+      </a>
+      <a
+        href="/blog"
+        class="rounded-full border border-accent/60 bg-accent px-4 py-2 text-sm text-paper transition hover:-translate-y-0.5"
+      >
+        Open Blog
+      </a>
+    </div>
+  </section>
+</BaseLayout>

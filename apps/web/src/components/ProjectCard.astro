@@ -1,0 +1,66 @@
+---
+import { formatDate } from "@/lib/date";
+import type { ProjectEntry } from "@/lib/content";
+
+interface Props {
+  project: ProjectEntry;
+}
+
+const { project } = Astro.props;
+
+const statusClass: Record<ProjectEntry["data"]["status"], string> = {
+  "in-progress": "border-coral/55 bg-coral/10 text-coral",
+  shipped: "border-mint/55 bg-mint/15 text-ink",
+  archived: "border-line bg-paper text-ink/55"
+};
+
+const statusLabel: Record<ProjectEntry["data"]["status"], string> = {
+  "in-progress": "in progress",
+  shipped: "shipped",
+  archived: "archived"
+};
+---
+
+<article class="panel rounded-xl border p-5 transition hover:-translate-y-1 hover:shadow-glow">
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <span class={`border px-2 py-1 font-mono text-[11px] uppercase tracking-[0.14em] ${statusClass[project.data.status]}`}>
+      {statusLabel[project.data.status]}
+    </span>
+    <time class="font-mono text-[11px] uppercase tracking-[0.1em] text-ink/55" datetime={project.data.updatedAt.toISOString()}>
+      Updated {formatDate(project.data.updatedAt)}
+    </time>
+  </div>
+
+  <h3 class="mt-4 font-display text-xl text-ink">
+    <a href={`/projects/${project.slug}`}>{project.data.title}</a>
+  </h3>
+
+  <p class="mt-3 text-sm leading-6 text-ink/72">{project.data.problem}</p>
+
+  <div class="mt-4 flex flex-wrap gap-2">
+    {project.data.stack.map((item) => (
+      <span class="border border-line/80 bg-paper px-2 py-1 font-mono text-[11px] uppercase tracking-[0.08em] text-ink/62">
+        {item}
+      </span>
+    ))}
+  </div>
+
+  <div class="mt-5 flex flex-wrap gap-4 text-sm">
+    <a
+      href={project.data.repoUrl}
+      target="_blank"
+      rel="noreferrer"
+      class="font-mono text-ink/70 underline decoration-line underline-offset-4 transition hover:text-ink"
+    >
+      GitHub
+    </a>
+    <a
+      href={project.data.demoUrl}
+      target="_blank"
+      rel="noreferrer"
+      class="font-mono text-ink/70 underline decoration-line underline-offset-4 transition hover:text-ink"
+    >
+      Demo
+    </a>
+  </div>
+</article>

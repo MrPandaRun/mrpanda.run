@@ -1,0 +1,92 @@
+---
+import BrandAvatar from "@/components/BrandAvatar.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { platformLinks, siteConfig } from "@/data/site";
+
+const principles = [
+  "Give executable actions first, then opinions.",
+  "Retrospectives must include failures and corrections.",
+  "Provide conclusions while exposing uncertainty and validation paths.",
+  "No anxiety marketing, no information spam, only reusable long-term content."
+];
+---
+
+<BaseLayout
+  title="About"
+  description="About Mr Panda: why this site exists, how content is created, and how to collaborate."
+>
+  <div class="page-shell space-y-12 py-10 md:py-14">
+    <section class="grid max-w-5xl gap-6 fade-rise md:grid-cols-[236px_1fr] md:items-center">
+      <div class="mx-auto md:mx-0">
+        <BrandAvatar
+          size="lg"
+          shape="hex"
+          loading="eager"
+          alt="Mr Panda social profile avatar"
+          className="h-[180px] w-[180px] sm:h-[210px] sm:w-[210px] md:h-[236px] md:w-[236px]"
+        />
+      </div>
+
+      <div>
+        <p class="section-kicker">About</p>
+        <h1 class="page-title mt-4">Who is Mr Panda</h1>
+        <p class="mt-5 text-base leading-8 text-ink/75 md:text-lg">
+          I am an AI learning creator and execution-first recorder. I learn in public, build in public,
+          and iterate in public. This site is a long-term brand asset focused on turning knowledge into action.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid gap-5 md:grid-cols-2">
+      <article class="rounded-2xl border border-line/80 bg-paper/90 p-6 shadow-card fade-rise delay-1">
+        <h2 class="font-display text-3xl text-ink">Why this site exists</h2>
+        <p class="mt-3 text-sm leading-7 text-ink/72">
+          AI information is noisy. Most people do not lack resources, they lack a stable execution system.
+          mrpanda.run compresses information into executable actions and iterates through public retrospectives.
+        </p>
+      </article>
+
+      <article class="rounded-2xl border border-line/80 bg-paper/90 p-6 shadow-card fade-rise delay-2">
+        <h2 class="font-display text-3xl text-ink">Content principles</h2>
+        <ul class="mt-3 space-y-2 text-sm leading-7 text-ink/72">
+          {principles.map((item) => (
+            <li class="flex gap-2">
+              <span aria-hidden="true" class="text-accent">•</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
+    </section>
+
+    <section class="rounded-2xl border border-line/80 bg-paper/95 p-6 shadow-card fade-rise delay-2">
+      <h2 class="font-display text-3xl text-ink">Platform links</h2>
+      <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {platformLinks.map((item) => (
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noreferrer"
+            class="rounded-xl border border-line/80 bg-canvas/20 px-4 py-3 text-sm text-ink/75 transition hover:-translate-y-0.5 hover:text-ink"
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="rounded-2xl border border-line/80 bg-paper/95 p-6 shadow-card fade-rise delay-3">
+      <h2 class="font-display text-3xl text-ink">Contact & collaboration</h2>
+      <p class="mt-3 text-sm leading-7 text-ink/72">
+        If you want to co-create AI learning series, practical projects, or content partnerships, reach out at
+        <a
+          href={`mailto:${siteConfig.email}`}
+          class="ml-1 text-ink underline decoration-accent underline-offset-4"
+        >
+          {siteConfig.email}
+        </a>
+        .
+      </p>
+    </section>
+  </div>
+</BaseLayout>

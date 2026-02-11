@@ -1,0 +1,146 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BlogCard from "@/components/BlogCard.astro";
+import Pagination from "@/components/Pagination.astro";
+import { blogCategories } from "@/data/site";
+import { getSortedBlogPosts } from "@/lib/content";
+
+const PAGE_SIZE = 3;
+
+const q = Astro.url.searchParams.get("q")?.trim().toLowerCase() ?? "";
+const categoryInput = Astro.url.searchParams.get("category")?.toLowerCase() ?? "all";
+const selectedCategory = blogCategories.includes(
+  categoryInput as (typeof blogCategories)[number]
+)
+  ? (categoryInput as (typeof blogCategories)[number])
+  : "all";
+
+const pageInput = Number.parseInt(Astro.url.searchParams.get("page") ?? "1", 10);
+const page = Number.isFinite(pageInput) && pageInput > 0 ? pageInput : 1;
+
+const categoryLabel: Record<(typeof blogCategories)[number], string> = {
+  all: "All",
+  learn: "Learn",
+  build: "Build",
+  think: "Think"
+};
+
+const allPosts = await getSortedBlogPosts();
+
+const filteredPosts = allPosts.filter((post) => {
+  const categoryMatch = selectedCategory === "all" || post.data.category === selectedCategory;
+
+  if (!categoryMatch) {
+    return false;
+  }
+
+  if (!q) {
+    return true;
+  }
+
+  const target = `${post.data.title} ${post.data.summary} ${post.data.tags.join(" ")}`.toLowerCase();
+  return target.includes(q);
+});
+
+const totalPages = Math.max(1, Math.ceil(filteredPosts.length / PAGE_SIZE));
+const safePage = Math.min(page, totalPages);
+const startIndex = (safePage - 1) * PAGE_SIZE;
+const pagedPosts = filteredPosts.slice(startIndex, startIndex + PAGE_SIZE);
+
+function buildHref(targetPage: number, overrides?: { category?: string }): string {
+  const params = new URLSearchParams();
+
+  if (q) {
+    params.set("q", q);
+  }
+
+  const nextCategory = overrides?.category ?? selectedCategory;
+
+  if (nextCategory !== "all") {
+    params.set("category", nextCategory);
+  }
+
+  if (targetPage > 1) {
+    params.set("page", String(targetPage));
+  }
+
+  const query = params.toString();
+  return query ? `/blog?${query}` : "/blog";
+}
+
+const previousHref = buildHref(Math.max(safePage - 1, 1));
+const nextHref = buildHref(Math.min(safePage + 1, totalPages));
+---
+
+<BaseLayout
+  title="Blog"
+  description="Build logs, learning loops, and practical reflections on AI execution."
+>
+  <div class="page-shell space-y-8 py-10 md:py-14">
+    <section class="fade-rise max-w-3xl">
+      <p class="section-kicker">Blog List</p>
+      <h1 class="page-title mt-4">Build, Learn, Think</h1>
+      <p class="mt-4 text-sm leading-7 text-ink/70">
+        No noise. Only practical write-ups with clear next actions.
+      </p>
+    </section>
+
+    <section class="panel fade-rise delay-1 rounded-xl border p-4 md:p-5">
+      <form class="grid gap-3 sm:grid-cols-[1fr_auto] sm:gap-4" action="/blog" method="get">
+        <label class="sr-only" for="q">Search blog</label>
+        <input
+          id="q"
+          name="q"
+          value={q}
+          placeholder="Search by title or tag"
+          class="w-full border border-line bg-paper px-3 py-2 text-sm outline-none transition focus:border-accent"
+        />
+        {selectedCategory !== "all" ? (
+          <input type="hidden" name="category" value={selectedCategory} />
+        ) : null}
+        <button
+          type="submit"
+          class="w-full border border-line bg-paper px-4 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-ink/75 transition hover:border-accent/45 hover:text-ink sm:w-auto"
+        >
+          Search
+        </button>
+      </form>
+
+      <div class="mt-4 flex flex-nowrap gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:pb-0">
+        {blogCategories.map((category) => {
+          const href = buildHref(1, { category });
+
+          return (
+            <a
+              href={href}
+              class={`whitespace-nowrap border px-3 py-1.5 text-sm transition ${
+                selectedCategory === category
+                  ? "border-accent/70 bg-accent/10 text-ink"
+                  : "border-line bg-paper text-ink/65 hover:bg-canvas/40"
+              }`}
+            >
+              {categoryLabel[category]}
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      {pagedPosts.length > 0 ? (
+        pagedPosts.map((post) => <BlogCard post={post} />)
+      ) : (
+        <article class="panel rounded-xl border p-8 text-sm text-ink/70">
+          No matching posts. Try another keyword or category.
+        </article>
+      )}
+    </section>
+
+    <Pagination
+      page={safePage}
+      totalPages={totalPages}
+      previousHref={previousHref}
+      nextHref={nextHref}
+    />
+  </div>
+</BaseLayout>

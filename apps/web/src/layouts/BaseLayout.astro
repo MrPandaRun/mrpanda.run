@@ -1,0 +1,85 @@
+---
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import { siteConfig } from "@/data/site";
+import "@/styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  ogImage = siteConfig.ogImage,
+  noIndex = false
+} = Astro.props;
+
+const pageTitle = title ? `${title} | mrpanda.run` : siteConfig.defaultTitle;
+const canonical = new URL(Astro.url.pathname, siteConfig.url).toString();
+const ogImageUrl = new URL(ogImage, siteConfig.url).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/jpeg" href="/mrpanda.jpg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={canonical} />
+    {noIndex ? <meta name="robots" content="noindex,nofollow" /> : null}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+  </head>
+
+  <body class="min-h-screen text-ink antialiased">
+    <div class="pointer-events-none fixed left-5 top-5 z-[30] hidden h-4 w-4 border-l border-t border-accent/45 md:block"></div>
+    <div class="pointer-events-none fixed bottom-5 right-5 z-[30] hidden h-4 w-4 border-b border-r border-accent/45 md:block"></div>
+
+    <a
+      href="#content"
+      class="absolute left-2 top-2 z-[60] -translate-y-16 rounded-md bg-paper px-3 py-2 text-sm text-ink shadow transition focus:translate-y-0"
+    >
+      Skip to content
+    </a>
+
+    <div class="border-b border-line/80 bg-paper/80">
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-ink/55 sm:text-[10px] sm:tracking-[0.14em] md:px-6">
+        <span>System: online</span>
+        <span class="text-right">Mode: build in public</span>
+      </div>
+    </div>
+
+    <SiteHeader />
+    <main id="content">
+      <slot />
+    </main>
+
+    <SiteFooter />
+
+    <script>
+      import "../scripts/client";
+    </script>
+  </body>
+</html>

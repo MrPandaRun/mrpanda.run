@@ -1,0 +1,68 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { projectStatuses } from "@/data/site";
+import { getSortedProjects } from "@/lib/content";
+
+const statusInput = Astro.url.searchParams.get("status") ?? "all";
+const activeStatus = projectStatuses.includes(
+  statusInput as (typeof projectStatuses)[number]
+)
+  ? (statusInput as (typeof projectStatuses)[number])
+  : "all";
+
+const statusLabel: Record<(typeof projectStatuses)[number], string> = {
+  all: "all",
+  "in-progress": "in progress",
+  shipped: "shipped",
+  archived: "archived"
+};
+
+const projects = (await getSortedProjects()).filter((project) =>
+  activeStatus === "all" ? true : project.data.status === activeStatus
+);
+---
+
+<BaseLayout
+  title="Projects"
+  description="Public projects with filters for in progress, shipped, and archived."
+>
+  <div class="page-shell space-y-8 py-10 md:py-14">
+    <section class="max-w-3xl fade-rise">
+      <p class="section-kicker">Project List</p>
+      <h1 class="page-title mt-4">Projects Built in Public</h1>
+      <p class="mt-4 text-sm leading-7 text-ink/70">
+        Each project includes the problem, stack, status, latest update, and links.
+      </p>
+    </section>
+
+    <section class="fade-rise delay-1 flex flex-nowrap gap-2 overflow-x-auto rounded-2xl border border-line/80 bg-paper/90 p-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap">
+      {projectStatuses.map((status) => {
+        const href = status === "all" ? "/projects" : `/projects?status=${status}`;
+
+        return (
+          <a
+            href={href}
+            class={`whitespace-nowrap rounded-full border px-3 py-1.5 text-sm transition ${
+              activeStatus === status
+                ? "border-accent/70 bg-accent/10 text-ink"
+                : "border-line bg-paper text-ink/65 hover:bg-canvas/30"
+            }`}
+          >
+            {statusLabel[status]}
+          </a>
+        );
+      })}
+    </section>
+
+    <section class="grid gap-4 md:grid-cols-2">
+      {projects.length > 0 ? (
+        projects.map((project) => <ProjectCard project={project} />)
+      ) : (
+        <article class="rounded-2xl border border-line/80 bg-paper/90 p-8 text-sm text-ink/70 md:col-span-2">
+          No project found for this status.
+        </article>
+      )}
+    </section>
+  </div>
+</BaseLayout>

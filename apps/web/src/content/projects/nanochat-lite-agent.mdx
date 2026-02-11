@@ -1,0 +1,31 @@
+---
+title: PocketAgent
+slug: nanochat-lite-agent
+status: shipped
+stack:
+  - Next.js
+  - TypeScript
+  - OpenAI API
+  - Upstash Redis
+repoUrl: https://github.com/mrpandarun/nanochat-lite-agent
+demoUrl: https://nanochat-lite.mrpanda.run
+updatedAt: 2026-02-09
+problem: Many users want a minimal agent chat experience without heavy setup, long prompts, or complex orchestration.
+hypothesis: A lightweight chat agent with compact memory, tool-call guardrails, and fast response loops is enough for most daily task workflows.
+buildProcess:
+  - Built a minimal chat shell with one model selector and one context pane.
+  - Added lightweight memory summarization to keep token usage predictable.
+  - Introduced strict tool-call limits and fallback mode for safer long sessions.
+resultsMetrics:
+  - Median first-response time is 1.2 seconds in production-like tests.
+  - Session completion rate reached 64% for tasks under 20 minutes.
+  - Average token usage per session dropped by 31% after memory compaction.
+retrospective:
+  - Simpler UX improved completion; advanced controls were moved behind defaults.
+  - Guardrails must be visible to users, otherwise failures feel random.
+relatedPosts:
+  - learn-loop-v1
+  - agent-demo-build-in-public
+---
+
+PocketAgent is intentionally small: fast chat, clear behavior, and enough agent capability for everyday execution tasks.
