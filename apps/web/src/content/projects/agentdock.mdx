@@ -1,0 +1,44 @@
+---
+title: AgentDock
+slug: agentdock
+status: in-progress
+stack:
+  - Tauri
+  - React
+  - TypeScript
+  - SQLite
+  - Terminal
+repoUrl: https://github.com/MrPandaRun/agentdock
+demoUrl: https://agentdock.mrpanda.run
+updatedAt: 2026-02-28
+problem: Managing Codex, Claude Code, and OpenCode threads across tasks is fragmented, making continuity and control difficult in multi-agent workflows.
+hypothesis: A local-first desktop console that treats native agent threads as the source of truth can make cross-agent work easier to track, resume, and operate.
+buildProcess:
+  - Unified thread indexing across Codex, Claude Code, and OpenCode.
+  - Implemented health_check, list_threads, and resume_thread as the current core operation set.
+  - Built a Tauri + React desktop shell with a terminal-only execution mode.
+resultsMetrics:
+  - Cross-agent history can now be searched and resumed from one desktop workspace.
+  - Thread continuation no longer depends on switching among separate CLIs.
+  - Local-first architecture keeps runtime, data, and integrations on-device.
+retrospective:
+  - AgentDock does not replace existing CLIs; it orchestrates around native agent threads.
+  - Cross-agent summary orchestration and a complete mobile loop are still in planning.
+relatedPosts:
+  - agent-demo-build-in-public
+  - think-in-public-calibration
+---
+
+AgentDock is a local-first multi-agent coding console that brings Codex, Claude Code, and OpenCode threads into one desktop workspace for viewing and continuation. It does not replace existing CLIs. Instead, it treats native agent threads as the source of truth and provides local indexing, grouping, and resume operations to make multi-agent workflows more continuous and controllable.
+
+Key points:
+
+- Unified thread management: view, filter, and resume historical threads across three agents
+- Local-first: runtime, data, and integrations all stay on the local machine
+- Desktop-first experience: built with Tauri + React, currently running in terminal-only mode
+- Clear scope: `health_check`, `list_threads`, and `resume_thread` are implemented; cross-agent summary orchestration and a complete mobile loop are still in planning
+
+Project links:
+
+- Homepage: [agentdock.mrpanda.run](https://agentdock.mrpanda.run)
+- Repo: [github.com/MrPandaRun/agentdock](https://github.com/MrPandaRun/agentdock)
